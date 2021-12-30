@@ -4,6 +4,7 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  purge: false,
 };
 
 // module.exports = {
