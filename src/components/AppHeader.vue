@@ -34,6 +34,7 @@ export default {
         { title: "Calculator", to: "/calculator" },
         { title: "Modal", to: "/modal" },
         { title: "User Crud", to: "/user-crud" },
+        { title: "Tensorflow", to: "/tensorflow" },
       ],
     };
   },

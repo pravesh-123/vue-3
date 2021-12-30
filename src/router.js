@@ -9,6 +9,7 @@ import Slider from "./pages/Slider.vue";
 import Calculator from "./pages/Calculator.vue";
 import Modal from "./pages/ReuseableModal.vue";
 import UserCrud from "./pages/UserCrud.vue";
+import Tensorflow from "./pages/Tensorflow.vue";
 
 // for routing
 const routes = [
@@ -20,6 +21,7 @@ const routes = [
   { path: "/calculator", component: Calculator },
   { path: "/modal", component: Modal },
   { path: "/user-crud", component: UserCrud },
+  { path: "/tensorflow", component: Tensorflow },
 ];
 const router = createRouter({
   history: createWebHistory(),

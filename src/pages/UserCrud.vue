@@ -17,25 +17,32 @@
             <tr>
               <th class="px-4 py-2 border">ID</th>
               <th class="px-4 py-2 border">Avatar</th>
-              <th class="px-4 py-2 border">First Name</th>
-              <th class="px-4 py-2 border">Last Name</th>
+              <th class="px-4 py-2 border">Name</th>
               <th class="px-4 py-2 border">Email</th>
+              <th class="px-4 py-2 border">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in state.users.data" :key="user.id">
-              <td class="border px-4 py-2">{{ user.id }}</td>
+            <tr v-for="user in state.users" :key="user.id">
+              <td class="border px-4 py-2">{{ user._id }}</td>
               <td class="border px-4 py-2">
                 <img
                   :src="user.avatar"
-                  :alt="user.first_name"
+                  :alt="user.name"
                   width="50"
                   class="rounded-full"
                 />
               </td>
-              <td class="border px-4 py-2">{{ user.first_name }}</td>
-              <td class="border px-4 py-2">{{ user.last_name }}</td>
+              <td class="border px-4 py-2">{{ user.name }}</td>
               <td class="border px-4 py-2">{{ user.email }}</td>
+              <td class="border px-4 py-2">
+                <button
+                  class="px-2 py-1 bg-red-800 rounded text-white"
+                  @click="destroy(user._id)"
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -119,7 +126,7 @@ export default {
   setup() {
     const isModalOpen = ref(false);
     const state = reactive({
-      users: {},
+      users: [],
       form: {
         name: "",
         email: "",
@@ -138,8 +145,19 @@ export default {
       const { data } = await axios.get(`/users?page=1`);
       state.users = data;
     }
-    function submit() {}
-    return { state, next, prev, isModalOpen, submit };
+    async function submit() {
+      const { data } = await axios.post("/users", state.form);
+      state.users.push(data);
+      state.form.name = "";
+      state.form.email = "";
+      state.form.avatar = "";
+      isModalOpen.value = false;
+    }
+    async function destroy(id) {
+      await axios.delete(`/users/${id}`);
+      state.users = state.users.filter((user) => user._id !== id);
+    }
+    return { state, next, prev, isModalOpen, submit, destroy };
   },
 };
 </script>
